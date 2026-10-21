@@ -1,4 +1,10 @@
-from pose_analysis.scoring.labels import gold_mark, import_label_csv, label_row, trial_gold
+from pose_analysis.scoring.labels import (
+    gold_mark,
+    import_label_csv,
+    label_row,
+    split_by_child,
+    trial_gold,
+)
 
 
 def test_gold_mark_thresholds_the_assessor_average():
@@ -58,3 +64,13 @@ def test_import_label_csv_keeps_trial_filenames_when_present():
     rows = import_label_csv(text)
     assert rows[0].trial_files == ("01_Jump-1.mp4", "01_Jump-2.mp4")
     assert rows[0].jump_total == 8
+
+
+def test_split_keeps_both_trials_of_a_child_together():
+    first = label_row("01 Jump", [[1, 0, 1, 0, 1, 0, 1, 0]])
+    second = label_row("02 Jump", [[0, 0, 0, 0, 0, 0, 0, 0]])
+    train, test = split_by_child([first, second], {"01 Jump"})
+    assert [row.video_name for row in test] == ["01 Jump"]
+    assert [row.video_name for row in train] == ["02 Jump"]
+    assert trial_gold(test[0], 1)[0] == 1
+    assert trial_gold(test[0], 2)[0] == 0

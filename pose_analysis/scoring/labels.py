@@ -58,6 +58,14 @@ def label_row(
     )
 
 
+def split_by_child(
+    rows: Sequence[JumpLabelRow], holdout: set[str]
+) -> tuple[tuple[JumpLabelRow, ...], tuple[JumpLabelRow, ...]]:
+    train = tuple(row for row in rows if row.video_name not in holdout)
+    test = tuple(row for row in rows if row.video_name in holdout)
+    return train, test
+
+
 def trial_gold(
     row: JumpLabelRow, trial: int
 ) -> tuple[int | None, int | None, int | None, int | None]:
