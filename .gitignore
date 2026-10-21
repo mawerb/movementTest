@@ -5,6 +5,7 @@ __pycache__/
 .DS_Store
 models/*.task
 models/*.tflite
+models/*.pt
 data/landmarks/
 data/*.jpg
 data/videos/
