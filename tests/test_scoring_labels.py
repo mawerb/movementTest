@@ -16,13 +16,20 @@ def test_label_row_ignores_blank_cells_and_sums_eight_gold_marks():
             [0, 1, None, None, None, None, None, None],
         ],
     )
-    assert row.gold[0] == 0
-    assert row.gold[1] == 0
-    assert row.gold[2] is None
-    assert row.jump_total is None
+    assert row.gold == (0, 0, 0, 0, 0, 0, 0, 0)
+    assert row.jump_total == 0
     assert row.trial_files == (None, None)
-    assert trial_gold(row, 1) == (0, None, None, None)
+    assert trial_gold(row, 1) == (0, 0, 0, 0)
     assert trial_gold(row, 2)[0] == 0
+
+
+def test_label_row_gold_none_only_when_every_assessor_blank():
+    row = label_row("03 Jump", [[1, None, 1, 1, 1, 1, 1, 1]])
+    assert row.gold[1] is None
+    assert row.jump_total is None
+    lone = label_row("04 Jump", [[None, 1, None, None, None, None, None, None]])
+    assert lone.gold[1] == 1
+    assert lone.jump_total is None
 
 
 def test_jump_total_is_the_sum_of_eight_gold_marks():

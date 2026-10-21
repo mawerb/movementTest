@@ -45,10 +45,7 @@ def label_row(
             raise ValueError(f"expected 8 jump marks, got {len(marks)}")
     gold = []
     for index in range(8):
-        values = [marks[index] for marks in stored]
-        if any(value is None for value in values):
-            gold.append(None)
-            continue
+        values = [marks[index] for marks in stored if marks[index] is not None]
         gold.append(gold_mark(values))
     gold_tuple = tuple(gold)
     total = sum(gold_tuple) if all(mark is not None for mark in gold_tuple) else None
