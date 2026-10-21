@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+models/*.task
+models/*.tflite
+models/*.pt
+data/landmarks/
+data/*.jpg
+data/videos/
+videos/
+*.mp4
+*.mov
+*.avi
